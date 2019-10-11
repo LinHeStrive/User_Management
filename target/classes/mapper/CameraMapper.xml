@@ -1,0 +1,243 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.helin.crud.dao.CameraMapper">
+  <resultMap id="BaseResultMap" type="com.helin.crud.bean.Camera">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="camera_id" jdbcType="INTEGER" property="cameraId" />
+    <result column="position" jdbcType="VARCHAR" property="position" />
+    <result column="pic_quality" jdbcType="VARCHAR" property="picQuality" />
+    <result column="angle" jdbcType="VARCHAR" property="angle" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, camera_id, position, pic_quality, angle
+  </sql>
+  <select id="selectByExample" parameterType="com.helin.crud.bean.CameraExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from tbl_camera
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from tbl_camera
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectByCameraId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from tbl_camera
+    where camera_id = #{camera_id,jdbcType=INTEGER}
+  </select>
+  <select id="selectByMs" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from tbl_camera
+		<where>
+			<if test="camera_id!=null">
+				and camera_id=#{camera_id}
+			</if>
+			<if test="position!=null">
+				and position=#{position}
+			</if>
+			<if test="pic_quality!=null">
+				and pic_quality=#{pic_quality}
+			</if>
+			<if test="angle!=null">
+				and angle=#{angle}
+			</if>
+		</where>
+	</select>
+  
+  
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from tbl_camera
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByCameraId" parameterType="java.lang.Integer">
+    delete from tbl_camera
+    where cameraId = #{cameraId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.helin.crud.bean.CameraExample">
+    delete from tbl_camera
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.helin.crud.bean.Camera">
+    insert into tbl_camera (id, camera_id, position, 
+      pic_quality, angle)
+    values (#{id,jdbcType=INTEGER}, #{cameraId,jdbcType=INTEGER}, #{position,jdbcType=VARCHAR}, 
+      #{picQuality,jdbcType=VARCHAR}, #{angle,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.helin.crud.bean.Camera">
+    insert into tbl_camera
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="cameraId != null">
+        camera_id,
+      </if>
+      <if test="position != null">
+        position,
+      </if>
+      <if test="picQuality != null">
+        pic_quality,
+      </if>
+      <if test="angle != null">
+        angle,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="cameraId != null">
+        #{cameraId,jdbcType=INTEGER},
+      </if>
+      <if test="position != null">
+        #{position,jdbcType=VARCHAR},
+      </if>
+      <if test="picQuality != null">
+        #{picQuality,jdbcType=VARCHAR},
+      </if>
+      <if test="angle != null">
+        #{angle,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.helin.crud.bean.CameraExample" resultType="java.lang.Long">
+    select count(*) from tbl_camera
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update tbl_camera
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.cameraId != null">
+        camera_id = #{record.cameraId,jdbcType=INTEGER},
+      </if>
+      <if test="record.position != null">
+        position = #{record.position,jdbcType=VARCHAR},
+      </if>
+      <if test="record.picQuality != null">
+        pic_quality = #{record.picQuality,jdbcType=VARCHAR},
+      </if>
+      <if test="record.angle != null">
+        angle = #{record.angle,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update tbl_camera
+    set id = #{record.id,jdbcType=INTEGER},
+      camera_id = #{record.cameraId,jdbcType=INTEGER},
+      position = #{record.position,jdbcType=VARCHAR},
+      pic_quality = #{record.picQuality,jdbcType=VARCHAR},
+      angle = #{record.angle,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.helin.crud.bean.Camera">
+    update tbl_camera
+    <set>
+      <if test="cameraId != null">
+        camera_id = #{cameraId,jdbcType=INTEGER},
+      </if>
+      <if test="position != null">
+        position = #{position,jdbcType=VARCHAR},
+      </if>
+      <if test="picQuality != null">
+        pic_quality = #{picQuality,jdbcType=VARCHAR},
+      </if>
+      <if test="angle != null">
+        angle = #{angle,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.helin.crud.bean.Camera">
+    update tbl_camera
+    set camera_id = #{cameraId,jdbcType=INTEGER},
+      position = #{position,jdbcType=VARCHAR},
+      pic_quality = #{picQuality,jdbcType=VARCHAR},
+      angle = #{angle,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>
